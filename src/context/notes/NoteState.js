@@ -1,4 +1,3 @@
-//import { useState } from "react";
 import { useState } from "react";
 import NoteContext from "./noteContext";
 
@@ -21,10 +20,10 @@ const NoteState = (props) => {
     //         })
     //     }, 1000)
     // }
-    const host = "http://localhost:5000";
+    const host = "https://inoteb00k.herokuapp.com";
     const notesInitial = [];
-      const [notes, setNotes] = useState(notesInitial);
-
+    const [notes, setNotes] = useState(notesInitial);
+    const [user, setUser] = useState(null);
 
 
       // Get all notes
@@ -88,9 +87,19 @@ const NoteState = (props) => {
         getNotes();
       }
 
+      const getUser = async (e) => {
+        const response = await fetch(`${host}/api/auth/getuser`, {
+          method: 'POST',
+          headers: {
+            'auth-token': localStorage.getItem('token')
+          },
+        });
+        const json = await response.json();
+        setUser(json);
+      }
 
     return (
-        <NoteContext.Provider value={{notes, setNotes, addNote, deleteNote, editNote, getNotes}}>
+        <NoteContext.Provider value={{notes, user, getUser, setNotes, addNote, deleteNote, editNote, getNotes}}>
             {props.children}
         </NoteContext.Provider>
     )

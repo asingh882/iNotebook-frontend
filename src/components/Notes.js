@@ -6,12 +6,13 @@ import Noteitem from './Noteitem';
 
 const Notes = (props) => {
   const context = useContext(noteContext);
-  const  {notes, getNotes, editNote} = context;
+  const  {notes, getNotes, editNote, getUser, user} = context;
   const [note, setNote] = useState({id: "", etitle: "", edescription: "", etag: "", visibility: ""});
   let navigate = useNavigate();
   useEffect(() => {
     if(localStorage.getItem('token')) {
       getNotes();
+      getUser();
     } else {
       navigate('/login');
     }
@@ -40,9 +41,7 @@ const onChange = (e) => {
 
     return (
     <>
-      <AddNote showAlert={props.showAlert} />
-
-      <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+     <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
         Launch demo modal
       </button>
 
@@ -81,14 +80,14 @@ const onChange = (e) => {
       <div className="row my-3">
           <h2>Your Notes</h2>
           <div className="container">
-          {notes.length === 0 && 'No notes to display'}
+          {notes.length === 0 && note.length}
           </div>
           {notes.map((note) => {
-            return <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note}/>
+            return <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert} user={user} note={note}/>
           })}
       </div>
     </>
   )
 }
 
-export default Notes
+export default Notes;

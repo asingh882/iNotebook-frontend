@@ -44,11 +44,18 @@ const Navbar = (props) => {
                   About
                 </Link>
               </li>
+              <li>
+                <Link className={`nav-link ${location.pathname === "/addnotes"?"active":""}`} to="/addnotes">
+                      Add Note
+                </Link>
+              </li>
             </ul>
-            {!localStorage.getItem('token')?<form className="d-flex" role="search">
+            <div className="d-flex" role="search">
+            {!localStorage.getItem('token')?<div>
               <Link to="/login" className="btn btn-outline-success mx-1">Login</Link>
               <Link to="/signup" className="btn btn-outline-success mx-1">Signup</Link>
-            </form>: <button className="btn btn-outline-success" onClick={handleLogout}>Logout</button>}
+            </div>: <button className="btn btn-outline-success" onClick={handleLogout}>Logout</button>}
+            </div>
           </div>
         </div>
       </nav>
